@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% if search_results is defined %}
+<hr>
+<h2>Proportion of lines containing "<code>{{query | safe}}</code>"</h2>
+
+<div id=chart_container></div>
+<script>
+    var chart = JSON.parse('{{ chart | tojson | safe }}');
+    var d3 = Plotly.d3;
+    var gd3 = d3.select('#chart_container').append('div').style({
+        width: '100%',
+        height: '300px',
+    });
+
+    var gd = gd3.node();
+    var plot = Plotly.newPlot(gd, chart.data, chart.layout, chart.config);
+    function resize() { Plotly.Plots.resize(gd) };
+
+    window.onresize = resize
+    resize()
+
+</script>
+
+
+
+<p>
+    *Those error bars are a 95&#37; confidence interval computed via <a
+        href='https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Normal_approximation_interval'>normal
+        approximation</a>.
+</p>
+
+<hr>
+
+<!-- TABLES FOR THE EXACT -->
+<button class="btn btn btn-outline-dark btn-block" type="button" data-toggle="collapse" data-target="#tables"
+    aria-expanded="false" aria-controls="collapseExample">
+    Data tables are a click away!
+</button>
+
+<div class="collapse" id=tables>
+    <hr>
+
+    <div class=overall_table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Show</th>
+                    <th scope="col">Total Lines</th>
+                    <th scope="col">Lines including "<code>{{query | safe}}</code>"</th>
+                    <th scope="col">Probability of "<code>{{query | safe}}</code>"</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show, data in search_results['overall'].items() %}
+                <tr>
+                    <td>{{show | title}}</td>
+                    <td>{{data['n']}}</td>
+                    <td>{{data['k']}}</td>
+                    <td>{{(data['p'] * 100) | round(3)}}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>By Character</h3>
+    <hr>
+    {% for show, characters in search_results['by_character'].items() %} <div class=show_character_table>
+        <h4>{{show | title}}</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Character</th>
+                    <th scope="col">Total Lines</th>
+                    <th scope="col">Lines including "<code>{{query | safe}}</code>"</th>
+                    <th scope="col">Probability of "<code>{{query | safe}}</code>"</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for character in characters %}
+                <tr>
+                    <td>{{character['character_name'] | title}}</td>
+                    <td>{{character['n']}}</td>
+                    <td>{{character['k']}}</td>
+                    <td>{{(character['p'] * 100) | round(3)}}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+</div>
+{% endif %} {% endblock %}

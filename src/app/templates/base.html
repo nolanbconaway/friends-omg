@@ -1,0 +1,80 @@
+<!doctype html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+</head>
+
+<body>
+    <h1>Friends Oh My God!</h1>
+    <div>
+        <p>
+            We were rewatching some old Friends episodes at home when I took notice that the phrase <i>"oh my god"</i>
+            comes up a lot in that show. As any reasonable person would, I compiled script data and built a website to
+            prove my point.
+        </p>
+
+        <p>
+            This webapp lets you check how often phrases like <a href='/?q=oh+my+god'>"oh my god"</a> are said in
+            Friends, Seinfeld, and Sex and the City. You can use the search bar below to compute the frequency of any
+            phrase you'd like.
+        </p>
+    </div>
+
+    <hr>
+    <form action="{{url_for('routes.search_form')}}" method="get">
+        <div class="form-group">
+            <input type="text" class="form-control" id="q" name='q' placeholder="Any phrase you want!">
+
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+
+    {% block content %}{% endblock %}
+
+    <hr>
+    <button class="btn btn btn-outline-dark btn-block" type="button" data-toggle="collapse" data-target="#info"
+        aria-expanded="false" aria-controls="collapseExample">
+        Click me if you'd like to read more about this app!
+    </button>
+
+    <div class="collapse" id=info>
+        <hr>
+        <p>I had some help putting these data together!</p>
+        <p>
+            Shout out to <a href='https://github.com/colinpollock/seinfeld-scripts'>Colin Pollock</a> for the
+            <i>excellent</i> Seinfeld dataset &#129305; . Shout out to <a
+                href='https://quotennial.github.io/Friends-engineering/'>Yusuf Sohoye</a> for the regex to parse through
+            Friends script files &#129304; . I stole the Sex and the City data from <a
+                href='https://www.kaggle.com/snapcrack/every-sex-and-the-city-script'>Kaggle</a> and will <i>not</i> be
+            giving shout outs because there was still a lot of cleaning work to do there.
+        </p>
+
+        <p>
+            You can download my the full (gzipped) SQLite3 database <a
+                href='http://nolanc.heliohost.org/omg-data/data.db'>here</a>
+            (it's not very large) &#128540; .
+        </p>
+    </div>
+
+    <style>
+        body {
+            max-width: 1000px;
+            padding: 2em;
+        }
+
+    </style>
+</body>

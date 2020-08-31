@@ -1,0 +1,24 @@
+#! /bin/sh
+
+mkdir -p raw-data
+
+echo '\n-------- DOWNLOADING FRIENDS DATA FROM GITHUB --------'
+DEST=raw-data/friends
+if [ -d "$DEST" ]; then rm -Rf $DEST; fi
+git clone https://github.com/fangj/friends.git $DEST
+
+echo '\n-------- DOWNLOADING SEINFELD DATA FROM HELIOHOST --------'
+# data originally from https://github.com/colinpollock/seinfeld-scripts
+# but colin had to email it to me.
+DEST=raw-data/seinfeld.db
+if [ -d "$DEST" ]; then rm -Rf $DEST; fi
+curl http://nolanc.heliohost.org/omg-data/seinfeld.db.gz | gunzip > $DEST
+
+echo '\n-------- DOWNLOADING SATC DATA FROM HELIOHOST --------'
+# data originally via: https://www.kaggle.com/snapcrack/every-sex-and-the-city-script
+# and then I cleaned it up a bit
+DEST=raw-data/satc.csv
+if [ -d "$DEST" ]; then rm -Rf $DEST; fi
+curl http://nolanc.heliohost.org/omg-data/satc.csv > $DEST
+
+echo '\nThe raw data has been downloaded!'
