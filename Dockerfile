@@ -1,8 +1,13 @@
   
 FROM python:3.8
 
+
+
 # download sqlite data
-RUN curl http://nolanc.heliohost.org/omg-data/data.db.gz | gunzip > data.db
+ARG REMOTE_DB_AT
+ENV REMOTE_DB_AT=${REMOTE_DB_AT}
+
+RUN curl -s $REMOTE_DB_AT | gunzip > data.db
 
 COPY requirements-app.txt requirements-app.txt
 COPY src src

@@ -5,7 +5,7 @@ from gevent.pywsgi import WSGIServer
 from . import create_app
 
 app = create_app()
-port = int(os.getenv("PORT", "5000"))
+port = int(os.getenv("PORT", "8000"))
 
 http_server = WSGIServer(("0.0.0.0", port), app)
 
