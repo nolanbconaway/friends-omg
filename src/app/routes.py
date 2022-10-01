@@ -23,3 +23,9 @@ def search_form():
         query=query,
         chart=chart,
     )
+
+
+@bp.route("/health")
+def health():
+    """Health check endpoint."""
+    return "ok"
