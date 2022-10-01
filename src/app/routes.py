@@ -18,5 +18,8 @@ def search_form():
     chart = make_bar_chart(result["overall"])
 
     return render_template(
-        "search.html", search_results=result, query=query, chart=chart,
+        "search.html",
+        search_results=result,
+        query=query,
+        chart=chart,
     )

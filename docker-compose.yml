@@ -1,0 +1,11 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - REMOTE_DB_AT=${REMOTE_DB_AT}
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
